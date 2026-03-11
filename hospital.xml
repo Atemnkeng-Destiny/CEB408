@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<hospital>
+    
+    <department id="D01">
+        <name>Cardiology</name>
+        <doctor>
+            <doctorID>DR101</doctorID>
+            <name>Dr. Smith</name>
+            <specialization>Heart Specialist</specialization>
+        </doctor>
+    </department>
+
+    <department id="D02">
+        <name>Pediatrics</name>
+        <doctor>
+            <doctorID>DR102</doctorID>
+            <name>Dr. Johnson</name>
+            <specialization>Child Specialist</specialization>
+        </doctor>
+    </department>
+
+    <patients>
+
+        <patient id="P001">
+            <name>John Doe</name>
+            <age>35</age>
+            <gender>Male</gender>
+            <disease>Heart Disease</disease>
+            <doctorAssigned>DR101</doctorAssigned>
+        </patient>
+
+        <patient id="P002">
+            <name>Mary Jane</name>
+            <age>8</age>
+            <gender>Female</gender>
+            <disease>Flu</disease>
+            <doctorAssigned>DR102</doctorAssigned>
+        </patient>
+
+    </patients>
+
+    <appointments>
+
+        <appointment id="A01">
+            <patientID>P001</patientID>
+            <doctorID>DR101</doctorID>
+            <date>2026-03-15</date>
+            <time>10:00 AM</time>
+        </appointment>
+
+        <appointment id="A02">
+            <patientID>P002</patientID>
+            <doctorID>DR102</doctorID>
+            <date>2026-03-16</date>
+            <time>11:30 AM</time>
+        </appointment>
+
+    </appointments>
+
+</hospital>
