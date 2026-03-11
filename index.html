@@ -1,0 +1,2878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Med-Care </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border: #cbd5e1;
+        }
+
+        body {
+            background-color: #000305;
+            color: #334155;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+       
+        header {
+            background: linear-gradient(135deg, var(--primary), #1105f3);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        
+        .main-content {
+            display: flex;
+            margin-top: 20px;
+            gap: 20px;
+            min-height: calc(100vh - 150px);
+        }
+
+       
+        .sidebar {
+            width: 280px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background-color: #f1f5f9;
+            border-left-color: var(--primary);
+        }
+
+        .menu-item.active {
+            background-color: #eff6ff;
+            border-left-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .menu-item i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+       
+        .dashboard-content {
+            flex: 1;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+       
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .icon-patients {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .icon-doctors {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .icon-appointments {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .icon-pharmacy {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        
+        .table-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid var(--light-gray);
+            overflow-x: auto;
+        }
+
+        .table-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        thead {
+            background-color: #f8fafc;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+        }
+
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-completed {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .status-inactive {
+            background-color: rgba(100, 116, 139, 0.1);
+            color: var(--gray);
+        }
+
+       
+        .form-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .required:after {
+            content: " *";
+            color: var(--danger);
+        }
+
+        input, select, textarea {
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+            background-color: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+       
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #0da271;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background-color: #000408;
+        }
+
+       
+        .auth-container {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0530f0 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .auth-box {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 450px;
+            padding: 40px;
+            animation: slideUp 0.5s;
+        }
+
+        .auth-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .auth-tab:hover {
+            color: var(--primary);
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+      
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .alert-error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-info {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+       
+        .search-filter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding-left: 45px;
+        }
+
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            background-color: #00050a;
+        }
+
+        .page-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 10px;
+            }
+            
+            .menu-item {
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 4px solid transparent;
+                padding: 10px 20px;
+            }
+            
+            .menu-item.active {
+                border-left: none;
+                border-bottom-color: var(--primary);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    <div id="authPage" class="auth-container">
+        <div class="auth-box">
+            <h1 class="auth-title"><i class="fas fa-hospital"></i> Med-Care Hospital</h1>
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuthTab('login')">Login</div>
+                <div class="auth-tab" onclick="switchAuthTab('register')">Register</div>
+            </div>
+            
+            <div id="loginForm" class="auth-form active">
+                <div id="loginAlert" class="alert" style="display: none;"></div>
+                <div class="form-group">
+                    <label for="loginEmail" class="required">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword" class="required">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label for="userType" class="required">Login as</label>
+                    <select id="userType">
+                        <option value="admin">Admin</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="patient">Patient</option>
+                        <option value="pharmacist">Pharmacist</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <div style="text-align: center; margin-top: 15px; color: var(--gray);">
+                    Demo: Use any email/password
+                </div>
+            </div>
+            
+            <div id="registerForm" class="auth-form">
+                <div id="registerAlert" class="alert" style="display: none;"></div>
+                <div class="form-group">
+                    <label for="registerName" class="required">Full Name</label>
+                    <input type="string" id="registerName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail" class="required">Email Address</label>
+                    <input type="email" id="registerEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword" class="required">Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword" class="required">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="Confirm your password">
+                </div>
+                <div class="form-group">
+                    <label for="registerUserType" class="required">Register as</label>
+                    <select id="registerUserType">
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                    </select>
+                </div>
+                <div class="form-group" id="doctorFields" style="display: none;">
+                    <label for="specialization">Specialization</label>
+                    <input type="text" id="specialization" placeholder="Enter specialization">
+                </div>
+                <button class="btn btn-success" style="width: 100%; margin-top: 20px;" onclick="register()">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="mainDashboard" style="display: none;">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-hospital"></i>
+                    <div>
+                        <h1>MediCare Hospital</h1>
+                        <span>Complete Management System</span>
+                    </div>
+                </div>
+                <div class="user-info">
+                    <div id="currentModuleName" style="font-weight: 600; color: white;"></div>
+                    <div class="user-avatar" id="userAvatar">AD</div>
+                    <button class="btn btn-warning btn-small" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="main-content">
+               
+                <nav class="sidebar">
+                    <ul class="sidebar-menu">
+                        <li class="menu-item active" onclick="loadModule('dashboard')">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </li>
+                        <li class="menu-item" onclick="loadModule('patients')">
+                            <i class="fas fa-user-injured"></i>
+                            <span>Patients</span>
+                        </li>
+                        <li class="menu-item" onclick="loadModule('doctors')">
+                            <i class="fas fa-user-md"></i>
+                            <span>Doctors</span>
+                        </li>
+                        <li class="menu-item" onclick="loadModule('appointments')">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </li>
+                        <li class="menu-item" onclick="loadModule('pharmacy')">
+                            <i class="fas fa-pills"></i>
+                            <span>Pharmacy</span>
+                        </li>
+                        <li class="menu-item" onclick="loadModule('drugPurchase')">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Drug Purchase</span>
+                        </li>
+                        <li class="menu-item" onclick="loadModule('admin')">
+                            <i class="fas fa-cogs"></i>
+                            <span>Admin Panel</span>
+                        </li>
+                        <li class="menu-item" onclick="loadModule('reports')">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reports</span>
+                        </li>
+                    </ul>
+                </nav>
+
+               
+                <div class="dashboard-content" id="moduleContent">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <div id="recordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Add Record</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalFormContent">
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+       
+        let currentUser = null;
+        let currentModule = 'dashboard';
+        let editingId = null;
+        
+       
+        let patients = JSON.parse(localStorage.getItem('patients')) || [
+            { id: 1, name: "John Smith", age: 45, gender: "Male", contact: "555-1234", email: "john@example.com", address: "123 Main St", status: "Active", registered: "2024-01-10" },
+            { id: 2, name: "Emma Johnson", age: 32, gender: "Female", contact: "555-5678", email: "emma@example.com", address: "456 Oak Ave", status: "Active", registered: "2024-01-12" },
+            { id: 3, name: "Robert Brown", age: 58, gender: "Male", contact: "555-8765", email: "robert@example.com", address: "789 Pine Rd", status: "Inactive", registered: "2024-01-05" },
+            { id: 4, name: "Sophia Williams", age: 28, gender: "Female", contact: "555-4321", email: "sophia@example.com", address: "321 Elm St", status: "Active", registered: "2024-01-15" }
+        ];
+
+        let doctors = JSON.parse(localStorage.getItem('doctors')) || [
+            { id: 1, name: "Dr. Michael Chen", specialization: "Cardiology", contact: "555-1111", email: "mchen@hospital.com", department: "Cardiology", status: "Available", experience: "15 years" },
+            { id: 2, name: "Dr. Sarah Miller", specialization: "Neurology", contact: "555-2222", email: "smiller@hospital.com", department: "Neurology", status: "Available", experience: "12 years" },
+            { id: 3, name: "Dr. James Wilson", specialization: "Orthopedics", contact: "555-3333", email: "jwilson@hospital.com", department: "Orthopedics", status: "On Leave", experience: "20 years" },
+            { id: 4, name: "Dr. Lisa Taylor", specialization: "Pediatrics", contact: "555-4444", email: "ltaylor@hospital.com", department: "Pediatrics", status: "Available", experience: "8 years" }
+        ];
+
+        let appointments = JSON.parse(localStorage.getItem('appointments')) || [
+            { id: 1, patientId: 1, patient: "John Smith", doctorId: 1, doctor: "Dr. Michael Chen", date: "2025-01-15", time: "10:00 AM", type: "Consultation", status: "Confirmed", notes: "Routine checkup" },
+            { id: 2, patientId: 2, patient: "Emma Johnson", doctorId: 2, doctor: "Dr. Sarah Miller", date: "2025-01-16", time: "2:30 PM", type: "Follow-up", status: "Pending", notes: "MRI results review" },
+            { id: 3, patientId: 3, patient: "Robert Brown", doctorId: 3, doctor: "Dr. James Wilson", date: "2025-01-17", time: "11:15 AM", type: "Surgery", status: "Cancelled", notes: "Knee replacement" },
+            { id: 4, patientId: 4, patient: "Sophia Williams", doctorId: 4, doctor: "Dr. Lisa Taylor", date: "2025-01-18", time: "9:00 AM", type: "Consultation", status: "Confirmed", notes: "Child vaccination" }
+        ];
+
+        let drugs = JSON.parse(localStorage.getItem('drugs')) || [
+            { id: 1, name: "Paracetamol", category: "Analgesic", stock: 150, price: 5.99, expiry: "2026-05-15", supplier: "MediSupply Inc", reorderLevel: 50 },
+            { id: 2, name: "Amoxicillin", category: "Antibiotic", stock: 75, price: 12.50, expiry: "2025-11-30", supplier: "PharmaCorp", reorderLevel: 30 },
+            { id: 3, name: "Lisinopril", category: "Hypertension", stock: 60, price: 8.75, expiry: "2026-03-20", supplier: "HealthPlus", reorderLevel: 20 },
+            { id: 4, name: "Metformin", category: "Diabetes", stock: 90, price: 6.25, expiry: "2025-12-10", supplier: "MediSupply Inc", reorderLevel: 40 }
+        ];
+
+        let drugPurchases = JSON.parse(localStorage.getItem('drugPurchases')) || [
+            { id: 1, drugId: 1, drugName: "Paracetamol", quantity: 100, unitPrice: 4.50, total: 450.00, supplier: "MediSupply Inc", date: "2024-01-10", status: "Received" },
+            { id: 2, drugId: 2, drugName: "Amoxicillin", quantity: 50, unitPrice: 10.00, total: 500.00, supplier: "PharmaCorp", date: "2024-01-12", status: "Pending" },
+            { id: 3, drugId: 3, drugName: "Lisinopril", quantity: 40, unitPrice: 7.00, total: 280.00, supplier: "HealthPlus", date: "2024-01-08", status: "Received" },
+            { id: 4, drugId: 4, drugName: "Metformin", quantity: 60, unitPrice: 5.00, total: 300.00, supplier: "MediSupply Inc", date: "2024-01-05", status: "Received" }
+        ];
+
+        let users = JSON.parse(localStorage.getItem('users')) || [
+            { id: 1, name: "Admin User", email: "admin@hospital.com", password: "admin123", type: "admin", avatar: "A" },
+            { id: 2, name: "Dr. Michael Chen", email: "doctor@hospital.com", password: "doctor123", type: "doctor", avatar: "D" },
+            { id: 3, name: "John Smith", email: "patient@hospital.com", password: "patient123", type: "patient", avatar: "P" }
+        ];
+
+       
+        function saveDataToStorage() {
+            localStorage.setItem('patients', JSON.stringify(patients));
+            localStorage.setItem('doctors', JSON.stringify(doctors));
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            localStorage.setItem('drugs', JSON.stringify(drugs));
+            localStorage.setItem('drugPurchases', JSON.stringify(drugPurchases));
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelector('.auth-tab:nth-child(1)').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:nth-child(2)').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        
+        document.getElementById('registerUserType').addEventListener('change', function() {
+            document.getElementById('doctorFields').style.display = this.value === 'doctor' ? 'block' : 'none';
+        });
+
+        function showAlert(elementId, message, type) {
+            const alertDiv = document.getElementById(elementId);
+            alertDiv.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i> ${message}`;
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.style.display = 'flex';
+            
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const userType = document.getElementById('userType').value;
+            
+            if (!email || !password) {
+                showAlert('loginAlert', 'Please enter email and password', 'error');
+                return;
+            }
+            
+           
+            const user = users.find(u => u.email === email && u.type === userType);
+            
+            if (user) {
+               
+                if (user.password === password || password.length > 0) { 
+                    currentUser = user;
+                    
+                   
+                    document.getElementById('userAvatar').textContent = user.avatar;
+                    document.getElementById('authPage').style.display = 'none';
+                    document.getElementById('mainDashboard').style.display = 'block';
+                    
+                   
+                    loadModule('dashboard');
+                    showAlert('loginAlert', `Welcome, ${user.name}!`, 'success');
+                } else {
+                    showAlert('loginAlert', 'Invalid password', 'error');
+                }
+            } else {
+               
+                currentUser = {
+                    id: users.length + 1,
+                    name: email.split('@')[0],
+                    email: email,
+                    type: userType,
+                    avatar: userType.charAt(0).toUpperCase()
+                };
+                
+                
+                document.getElementById('userAvatar').textContent = currentUser.avatar;
+                document.getElementById('authPage').style.display = 'none';
+                document.getElementById('mainDashboard').style.display = 'block';
+                
+              
+                loadModule('dashboard');
+                showAlert('loginAlert', `Welcome, ${currentUser.name}!`, 'success');
+            }
+        }
+
+        function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            const userType = document.getElementById('registerUserType').value;
+            const specialization = document.getElementById('specialization')?.value || '';
+            
+            if (!name || !email || !password || !confirmPassword) {
+                showAlert('registerAlert', 'Please fill all required fields', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAlert('registerAlert', 'Passwords do not match', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAlert('registerAlert', 'Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+           
+            if (users.some(u => u.email === email)) {
+                showAlert('registerAlert', 'Email already registered', 'error');
+                return;
+            }
+            
+            
+            const newUser = {
+                id: users.length + 1,
+                name: name,
+                email: email,
+                password: password,
+                type: userType,
+                avatar: name.charAt(0).toUpperCase(),
+                specialization: userType === 'doctor' ? specialization : null
+            };
+            
+            users.push(newUser);
+            saveDataToStorage();
+            
+           
+            if (userType === 'doctor') {
+                const newDoctor = {
+                    id: doctors.length + 1,
+                    name: `Dr. ${name}`,
+                    specialization: specialization,
+                    contact: "",
+                    email: email,
+                    department: specialization,
+                    status: "Available",
+                    experience: "New"
+                };
+                doctors.push(newDoctor);
+                saveDataToStorage();
+            }
+            
+           
+            if (userType === 'patient') {
+                const newPatient = {
+                    id: patients.length + 1,
+                    name: name,
+                    age: 0,
+                    gender: "",
+                    contact: "",
+                    email: email,
+                    address: "",
+                    status: "Active",
+                    registered: new Date().toISOString().split('T')[0]
+                };
+                patients.push(newPatient);
+                saveDataToStorage();
+            }
+            
+            showAlert('registerAlert', 'Registration successful! Please login.', 'success');
+            
+            
+            setTimeout(() => {
+                document.getElementById('registerName').value = '';
+                document.getElementById('registerEmail').value = '';
+                document.getElementById('registerPassword').value = '';
+                document.getElementById('registerConfirmPassword').value = '';
+                if (document.getElementById('specialization')) {
+                    document.getElementById('specialization').value = '';
+                }
+                switchAuthTab('login');
+                document.getElementById('registerAlert').style.display = 'none';
+            }, 2000);
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainDashboard').style.display = 'none';
+            document.getElementById('authPage').style.display = 'flex';
+            
+           
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+       
+        function loadModule(moduleName) {
+            currentModule = moduleName;
+            
+            
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            
+            const menuItems = document.querySelectorAll('.menu-item');
+            for (let item of menuItems) {
+                if (item.textContent.includes(getModuleDisplayName(moduleName))) {
+                    item.classList.add('active');
+                    break;
+                }
+            }
+            
+            
+            document.getElementById('currentModuleName').textContent = getModuleDisplayName(moduleName);
+            
+           
+            let content = '';
+            
+            switch(moduleName) {
+                case 'dashboard':
+                    content = loadDashboard();
+                    break;
+                case 'patients':
+                    content = loadPatients();
+                    break;
+                case 'doctors':
+                    content = loadDoctors();
+                    break;
+                case 'appointments':
+                    content = loadAppointments();
+                    break;
+                case 'pharmacy':
+                    content = loadPharmacy();
+                    break;
+                case 'drugPurchase':
+                    content = loadDrugPurchase();
+                    break;
+                case 'admin':
+                    content = loadAdmin();
+                    break;
+                case 'reports':
+                    content = loadReports();
+                    break;
+            }
+            
+            document.getElementById('moduleContent').innerHTML = content;
+            
+           
+            if (moduleName === 'patients' || moduleName === 'doctors' || moduleName === 'appointments' || 
+                moduleName === 'pharmacy' || moduleName === 'drugPurchase') {
+                initializeSearch();
+            }
+        }
+
+        function getModuleDisplayName(moduleName) {
+            const names = {
+                dashboard: 'Dashboard',
+                patients: 'Patient Management',
+                doctors: 'Doctor Management',
+                appointments: 'Appointments',
+                pharmacy: 'Pharmacy',
+                drugPurchase: 'Drug Purchases',
+                admin: 'Admin Panel',
+                reports: 'Reports'
+            };
+            return names[moduleName] || moduleName;
+        }
+
+        function getStatusClass(status) {
+            if (status === 'Active' || status === 'Available' || status === 'Confirmed' || status === 'Received') {
+                return 'status-active';
+            } else if (status === 'Pending') {
+                return 'status-pending';
+            } else if (status === 'Completed') {
+                return 'status-completed';
+            } else {
+                return 'status-inactive';
+            }
+        }
+
+        
+        function loadDashboard() {
+            const today = new Date().toISOString().split('T')[0];
+            const todaysAppointments = appointments.filter(apt => apt.date === today);
+            
+            return `
+                <div class="section-header">
+                    <h2 class="section-title">Hospital Dashboard</h2>
+                    <div>Welcome, <strong>${currentUser.name}</strong> (${currentUser.type})</div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-patients">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>${patients.length}</h3>
+                            <p>Total Patients</p>
+                            <small>${patients.filter(p => p.status === 'Active').length} Active</small>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon icon-doctors">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>${doctors.length}</h3>
+                            <p>Total Doctors</p>
+                            <small>${doctors.filter(d => d.status === 'Available').length} Available</small>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon icon-appointments">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>${todaysAppointments.length}</h3>
+                            <p>Today's Appointments</p>
+                            <small>${appointments.length} Total</small>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon icon-pharmacy">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>${drugs.length}</h3>
+                            <p>Drugs in Stock</p>
+                            <small>${drugs.filter(d => d.stock < d.reorderLevel).length} Low Stock</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-title">
+                        <span>Today's Appointments (${today})</span>
+                        <button class="btn btn-primary btn-small" onclick="loadModule('appointments')">
+                            <i class="fas fa-eye"></i> View All Appointments
+                        </button>
+                    </div>
+                    ${todaysAppointments.length > 0 ? `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${todaysAppointments.map(apt => `
+                                <tr>
+                                    <td>${apt.patient}</td>
+                                    <td>${apt.doctor}</td>
+                                    <td>${apt.time}</td>
+                                    <td>${apt.type}</td>
+                                    <td><span class="status ${getStatusClass(apt.status)}">${apt.status}</span></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    ` : `<div style="text-align: center; padding: 40px; color: var(--gray);">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>No appointments scheduled for today</h3>
+                    </div>`}
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-title">
+                        <span>Low Stock Drugs (Need Reorder)</span>
+                        <button class="btn btn-primary btn-small" onclick="loadModule('pharmacy')">
+                            <i class="fas fa-pills"></i> Manage Pharmacy
+                        </button>
+                    </div>
+                    ${drugs.filter(d => d.stock < d.reorderLevel).length > 0 ? `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Drug Name</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Reorder Level</th>
+                                <th>Supplier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${drugs.filter(d => d.stock < d.reorderLevel).map(drug => `
+                                <tr>
+                                    <td><strong>${drug.name}</strong></td>
+                                    <td>${drug.category}</td>
+                                    <td><span style="color: var(--danger); font-weight: 600;">${drug.stock}</span></td>
+                                    <td>${drug.reorderLevel}</td>
+                                    <td>${drug.supplier}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    ` : `<div style="text-align: center; padding: 40px; color: var(--secondary);">
+                        <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>All drugs are sufficiently stocked</h3>
+                    </div>`}
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+                    <div class="table-container">
+                        <div class="table-title">
+                            <span>Recent Patients</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${patients.slice(-5).map(patient => `
+                                    <tr>
+                                        <td>${patient.name}</td>
+                                        <td>${patient.contact}</td>
+                                        <td><span class="status ${getStatusClass(patient.status)}">${patient.status}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-title">
+                            <span>Available Doctors</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Specialization</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${doctors.filter(d => d.status === 'Available').slice(0, 5).map(doctor => `
+                                    <tr>
+                                        <td>${doctor.name}</td>
+                                        <td>${doctor.specialization}</td>
+                                        <td><span class="status ${getStatusClass(doctor.status)}">${doctor.status}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadPatients() {
+            return `
+                <div class="section-header">
+                    <h2 class="section-title">Patient Management</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="exportData('patients')">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('patient', 'add')">
+                            <i class="fas fa-plus"></i> Add New Patient
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="patientSearch" placeholder="Search patients by name, contact, or email..." onkeyup="searchTable('patientSearch', 'patientsTable')">
+                    </div>
+                    <div>
+                        <select id="statusFilter" onchange="filterTable('statusFilter', 'patientsTable', 5)">
+                            <option value="">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="patientsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Contact</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${patients.map(patient => `
+                                <tr>
+                                    <td>#${patient.id}</td>
+                                    <td><strong>${patient.name}</strong></td>
+                                    <td>${patient.age}</td>
+                                    <td>${patient.gender}</td>
+                                    <td>${patient.contact}</td>
+                                    <td>${patient.email}</td>
+                                    <td><span class="status ${getStatusClass(patient.status)}">${patient.status}</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-secondary btn-small" onclick="openModal('patient', 'edit', ${patient.id})">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="btn btn-danger btn-small" onclick="deleteRecord('patient', ${patient.id})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination" id="patientPagination"></div>
+            `;
+        }
+
+        function loadDoctors() {
+            return `
+                <div class="section-header">
+                    <h2 class="section-title">Doctor Management</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="exportData('doctors')">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('doctor', 'add')">
+                            <i class="fas fa-plus"></i> Add New Doctor
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="doctorSearch" placeholder="Search doctors by name, specialization, or department..." onkeyup="searchTable('doctorSearch', 'doctorsTable')">
+                    </div>
+                    <div>
+                        <select id="doctorStatusFilter" onchange="filterTable('doctorStatusFilter', 'doctorsTable', 4)">
+                            <option value="">All Status</option>
+                            <option value="Available">Available</option>
+                            <option value="On Leave">On Leave</option>
+                            <option value="Busy">Busy</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="doctorsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Specialization</th>
+                                <th>Department</th>
+                                <th>Contact</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${doctors.map(doctor => `
+                                <tr>
+                                    <td>#${doctor.id}</td>
+                                    <td><strong>${doctor.name}</strong></td>
+                                    <td>${doctor.specialization}</td>
+                                    <td>${doctor.department}</td>
+                                    <td>${doctor.contact}</td>
+                                    <td>${doctor.email}</td>
+                                    <td><span class="status ${getStatusClass(doctor.status)}">${doctor.status}</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-secondary btn-small" onclick="openModal('doctor', 'edit', ${doctor.id})">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="btn btn-danger btn-small" onclick="deleteRecord('doctor', ${doctor.id})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function loadAppointments() {
+            return `
+                <div class="section-header">
+                    <h2 class="section-title">Appointment Management</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="exportData('appointments')">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('appointment', 'add')">
+                            <i class="fas fa-plus"></i> Schedule Appointment
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="appointmentSearch" placeholder="Search appointments by patient, doctor, or type..." onkeyup="searchTable('appointmentSearch', 'appointmentsTable')">
+                    </div>
+                    <div>
+                        <select id="appointmentStatusFilter" onchange="filterTable('appointmentStatusFilter', 'appointmentsTable', 5)">
+                            <option value="">All Status</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="appointmentsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${appointments.map(apt => `
+                                <tr>
+                                    <td>#${apt.id}</td>
+                                    <td><strong>${apt.patient}</strong></td>
+                                    <td>${apt.doctor}</td>
+                                    <td>${apt.date}</td>
+                                    <td>${apt.time}</td>
+                                    <td>${apt.type}</td>
+                                    <td><span class="status ${getStatusClass(apt.status)}">${apt.status}</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-secondary btn-small" onclick="openModal('appointment', 'edit', ${apt.id})">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="btn btn-danger btn-small" onclick="deleteRecord('appointment', ${apt.id})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <button class="btn btn-success btn-small" onclick="updateAppointmentStatus(${apt.id}, 'Completed')">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function loadPharmacy() {
+            return `
+                <div class="section-header">
+                    <h2 class="section-title">Pharmacy Management</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="exportData('drugs')">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('drug', 'add')">
+                            <i class="fas fa-plus"></i> Add New Drug
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="drugSearch" placeholder="Search drugs by name, category, or supplier..." onkeyup="searchTable('drugSearch', 'drugsTable')">
+                    </div>
+                    <div>
+                        <select id="drugCategoryFilter" onchange="filterTable('drugCategoryFilter', 'drugsTable', 1)">
+                            <option value="">All Categories</option>
+                            <option value="Analgesic">Analgesic</option>
+                            <option value="Antibiotic">Antibiotic</option>
+                            <option value="Hypertension">Hypertension</option>
+                            <option value="Diabetes">Diabetes</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="drugsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Drug Name</th>
+                                <th>Category</th>
+                                <th>Stock</th>
+                                <th>Price</th>
+                                <th>Expiry Date</th>
+                                <th>Supplier</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${drugs.map(drug => `
+                                <tr>
+                                    <td>#${drug.id}</td>
+                                    <td><strong>${drug.name}</strong></td>
+                                    <td>${drug.category}</td>
+                                    <td>
+                                        <span style="color: ${drug.stock < drug.reorderLevel ? 'var(--danger)' : (drug.stock < drug.reorderLevel * 2 ? 'var(--warning)' : 'var(--secondary)')}; font-weight: 600;">
+                                            ${drug.stock}
+                                        </span>
+                                        ${drug.stock < drug.reorderLevel ? '<i class="fas fa-exclamation-triangle" style="color: var(--danger); margin-left: 5px;"></i>' : ''}
+                                    </td>
+                                    <td>$${drug.price.toFixed(2)}</td>
+                                    <td>${drug.expiry}</td>
+                                    <td>${drug.supplier}</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-secondary btn-small" onclick="openModal('drug', 'edit', ${drug.id})">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-small" onclick="deleteRecord('drug', ${drug.id})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <button class="btn btn-primary btn-small" onclick="openModal('drugPurchase', 'add', null, ${drug.id})">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function loadDrugPurchase() {
+            return `
+                <div class="section-header">
+                    <h2 class="section-title">Drug Purchase Management</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="exportData('drugPurchases')">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('drugPurchase', 'add')">
+                            <i class="fas fa-plus"></i> New Purchase
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="purchaseSearch" placeholder="Search purchases by drug name or supplier..." onkeyup="searchTable('purchaseSearch', 'purchasesTable')">
+                    </div>
+                    <div>
+                        <select id="purchaseStatusFilter" onchange="filterTable('purchaseStatusFilter', 'purchasesTable', 6)">
+                            <option value="">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Received">Received</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="purchasesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Drug Name</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total</th>
+                                <th>Supplier</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${drugPurchases.map(purchase => `
+                                <tr>
+                                    <td>#${purchase.id}</td>
+                                    <td><strong>${purchase.drugName}</strong></td>
+                                    <td>${purchase.quantity}</td>
+                                    <td>$${purchase.unitPrice.toFixed(2)}</td>
+                                    <td><strong>$${purchase.total.toFixed(2)}</strong></td>
+                                    <td>${purchase.supplier}</td>
+                                    <td>${purchase.date}</td>
+                                    <td><span class="status ${getStatusClass(purchase.status)}">${purchase.status}</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-secondary btn-small" onclick="openModal('drugPurchase', 'edit', ${purchase.id})">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-success btn-small" onclick="updatePurchaseStatus(${purchase.id}, 'Received')" ${purchase.status === 'Received' ? 'disabled' : ''}>
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-container" style="margin-top: 20px;">
+                    <div class="table-title">
+                        <span>Purchase Summary</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                        <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 8px;">
+                            <h3 style="color: var(--primary);">$${drugPurchases.reduce((sum, p) => sum + p.total, 0).toFixed(2)}</h3>
+                            <p>Total Purchase Value</p>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 8px;">
+                            <h3 style="color: var(--secondary);">${drugPurchases.filter(p => p.status === 'Received').length}</h3>
+                            <p>Received Orders</p>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 8px;">
+                            <h3 style="color: var(--warning);">${drugPurchases.filter(p => p.status === 'Pending').length}</h3>
+                            <p>Pending Orders</p>
+                        </div>
+                        <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 8px;">
+                            <h3 style="color: var(--danger);">${drugPurchases.filter(p => p.status === 'Cancelled').length}</h3>
+                            <p>Cancelled Orders</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadAdmin() {
+            return `
+                <div class="section-header">
+                    <h2 class="section-title">Administrator Panel</h2>
+                    <div>
+                        <button class="btn btn-danger" onclick="resetSystem()">
+                            <i class="fas fa-redo"></i> Reset Demo Data
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="form-container">
+                        <h3 style="margin-bottom: 20px;">System Settings</h3>
+                        <div class="form-group">
+                            <label>Hospital Name</label>
+                            <input type="text" value="MediCare Hospital" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>System Version</label>
+                            <input type="text" value="2.1.0" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Users</label>
+                            <input type="text" value="${users.length}" readonly>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top: 15px;">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                    </div>
+                    
+                    <div class="form-container">
+                        <h3 style="margin-bottom: 20px;">User Management</h3>
+                        <div class="form-group">
+                            <label>Add New Admin User</label>
+                            <input type="text" placeholder="Enter email address">
+                        </div>
+                        <div class="form-group">
+                            <label>User Role</label>
+                            <select>
+                                <option>Admin</option>
+                                <option>Doctor</option>
+                                <option>Pharmacist</option>
+                                <option>Receptionist</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-success" style="margin-top: 15px;">
+                            <i class="fas fa-user-plus"></i> Add User
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-title">
+                        <span>System Users</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${users.map(user => `
+                                <tr>
+                                    <td>#${user.id}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.email}</td>
+                                    <td><span class="status ${user.type === 'admin' ? 'status-active' : 'status-pending'}">${user.type}</span></td>
+                                    <td>
+                                        <button class="btn btn-danger btn-small" onclick="deleteUser(${user.id})" ${user.id === currentUser.id ? 'disabled' : ''}>
+                                            <i class="fas fa-trash"></i> Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-title">
+                        <span>System Logs</span>
+                    </div>
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 8px; font-family: monospace; max-height: 300px; overflow-y: auto;">
+                        <div><span style="color: var(--gray);">[2025-01-04 09:15:32]</span> System started</div>
+                        <div><span style="color: var(--gray);">[2025-01-04 09:20:15]</span> User "${currentUser.name}" logged in</div>
+                        <div><span style="color: var(--gray);">[2025-01-04 09:25:43]</span> Patient record updated</div>
+                        <div><span style="color: var(--gray);">[2025-01-04 09:30:12]</span> New appointment scheduled</div>
+                        <div><span style="color: var(--gray);">[2025-01-04 09:35:27]</span> Drug purchase recorded</div>
+                        <div><span style="color: var(--gray);">[2025-01-04 09:40:05]</span> Database backup completed</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadReports() {
+            const totalRevenue = appointments.filter(a => a.status === 'Completed').length * 50; // Assuming $50 per appointment
+            const pharmacyRevenue = drugs.reduce((sum, d) => sum + (150 - d.stock) * d.price, 0); // Assuming sold items
+            
+            return `
+                <div class="section-header">
+                    <h2 class="section-title">Reports & Analytics</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="printReport()">
+                            <i class="fas fa-print"></i> Print Report
+                        </button>
+                        <button class="btn btn-primary" onclick="generateReport()">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(37, 99, 235, 0.1); color: var(--primary);">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>$${totalRevenue + pharmacyRevenue}</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--secondary);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>${patients.length}</h3>
+                            <p>Patient Growth</p>
+                            <small>+5% this month</small>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.1); color: var(--warning);">
+                            <i class="fas fa-stethoscope"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>${appointments.filter(a => a.status === 'Completed').length}</h3>
+                            <p>Consultations</p>
+                            <small>This month</small>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger);">
+                            <i class="fas fa-prescription-bottle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>$${pharmacyRevenue.toFixed(2)}</h3>
+                            <p>Pharmacy Sales</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 30px;">
+                    <div class="table-container">
+                        <div class="table-title">
+                            <span>Monthly Appointments Trend</span>
+                        </div>
+                        <div style="padding: 20px;">
+                            <canvas id="appointmentsChart" style="width: 100%; height: 300px;"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-title">
+                            <span>Doctor Performance</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Appointments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${doctors.map(doctor => {
+                                    const doctorAppointments = appointments.filter(a => a.doctor === doctor.name);
+                                    return `
+                                        <tr>
+                                            <td>${doctor.name.split('Dr. ')[1]}</td>
+                                            <td>${doctorAppointments.length}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <div class="table-title">
+                        <span>Detailed Financial Report</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Consultation Fees</td>
+                                <td>$2,500</td>
+                                <td>$2,800</td>
+                                <td>$3,200</td>
+                                <td>$3,500</td>
+                                <td>$3,800</td>
+                                <td><strong>$15,800</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Pharmacy Sales</td>
+                                <td>$1,200</td>
+                                <td>$1,500</td>
+                                <td>$1,800</td>
+                                <td>$2,000</td>
+                                <td>$2,200</td>
+                                <td><strong>$8,700</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Lab Tests</td>
+                                <td>$800</td>
+                                <td>$900</td>
+                                <td>$1,100</td>
+                                <td>$1,200</td>
+                                <td>$1,300</td>
+                                <td><strong>$5,300</strong></td>
+                            </tr>
+                            <tr style="background-color: #f8fafc;">
+                                <td><strong>Total Revenue</strong></td>
+                                <td><strong>$4,500</strong></td>
+                                <td><strong>$5,200</strong></td>
+                                <td><strong>$6,100</strong></td>
+                                <td><strong>$6,700</strong></td>
+                                <td><strong>$7,300</strong></td>
+                                <td><strong>$29,800</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+       
+        function openModal(type, action, id = null, drugId = null) {
+            editingId = id;
+            const modal = document.getElementById('recordModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const formContent = document.getElementById('modalFormContent');
+            
+            let formHTML = '';
+            let record = null;
+            
+            if (action === 'edit' && id) {
+                switch(type) {
+                    case 'patient':
+                        record = patients.find(p => p.id === id);
+                        break;
+                    case 'doctor':
+                        record = doctors.find(d => d.id === id);
+                        break;
+                    case 'appointment':
+                        record = appointments.find(a => a.id === id);
+                        break;
+                    case 'drug':
+                        record = drugs.find(d => d.id === id);
+                        break;
+                    case 'drugPurchase':
+                        record = drugPurchases.find(p => p.id === id);
+                        break;
+                }
+            }
+            
+           
+            modalTitle.textContent = `${action === 'add' ? 'Add New' : 'Edit'} ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+            
+           
+            switch(type) {
+                case 'patient':
+                    formHTML = `
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="required">Full Name</label>
+                                <input type="text" id="patientName" value="${record ? record.name : ''}" placeholder="Enter patient's full name">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Age</label>
+                                <input type="number" id="patientAge" value="${record ? record.age : ''}" placeholder="Enter age">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Gender</label>
+                                <select id="patientGender">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male" ${record && record.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                    <option value="Female" ${record && record.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                    <option value="Other" ${record && record.gender === 'Other' ? 'selected' : ''}>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Contact Number</label>
+                                <input type="text" id="patientContact" value="${record ? record.contact : ''}" placeholder="Enter contact number">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Email Address</label>
+                                <input type="email" id="patientEmail" value="${record ? record.email : ''}" placeholder="Enter email address">
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea id="patientAddress" placeholder="Enter full address">${record ? record.address : ''}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Status</label>
+                                <select id="patientStatus">
+                                    <option value="Active" ${record && record.status === 'Active' ? 'selected' : ''}>Active</option>
+                                    <option value="Inactive" ${record && record.status === 'Inactive' ? 'selected' : ''}>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 25px;">
+                            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="savePatient()">${action === 'add' ? 'Add Patient' : 'Update Patient'}</button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'doctor':
+                    formHTML = `
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="required">Full Name</label>
+                                <input type="text" id="doctorName" value="${record ? record.name : ''}" placeholder="Enter doctor's full name">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Specialization</label>
+                                <input type="text" id="doctorSpecialization" value="${record ? record.specialization : ''}" placeholder="Enter specialization">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Department</label>
+                                <select id="doctorDepartment">
+                                    <option value="">Select Department</option>
+                                    <option value="Cardiology" ${record && record.department === 'Cardiology' ? 'selected' : ''}>Cardiology</option>
+                                    <option value="Neurology" ${record && record.department === 'Neurology' ? 'selected' : ''}>Neurology</option>
+                                    <option value="Orthopedics" ${record && record.department === 'Orthopedics' ? 'selected' : ''}>Orthopedics</option>
+                                    <option value="Pediatrics" ${record && record.department === 'Pediatrics' ? 'selected' : ''}>Pediatrics</option>
+                                    <option value="General" ${record && record.department === 'General' ? 'selected' : ''}>General Medicine</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Contact Number</label>
+                                <input type="text" id="doctorContact" value="${record ? record.contact : ''}" placeholder="Enter contact number">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Email Address</label>
+                                <input type="email" id="doctorEmail" value="${record ? record.email : ''}" placeholder="Enter email address">
+                            </div>
+                            <div class="form-group">
+                                <label>Experience</label>
+                                <input type="text" id="doctorExperience" value="${record ? record.experience : ''}" placeholder="Enter years of experience">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Status</label>
+                                <select id="doctorStatus">
+                                    <option value="Available" ${record && record.status === 'Available' ? 'selected' : ''}>Available</option>
+                                    <option value="On Leave" ${record && record.status === 'On Leave' ? 'selected' : ''}>On Leave</option>
+                                    <option value="Busy" ${record && record.status === 'Busy' ? 'selected' : ''}>Busy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 25px;">
+                            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="saveDoctor()">${action === 'add' ? 'Add Doctor' : 'Update Doctor'}</button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'appointment':
+                    formHTML = `
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="required">Patient</label>
+                                <select id="appointmentPatient">
+                                    <option value="">Select Patient</option>
+                                    ${patients.filter(p => p.status === 'Active').map(p => `
+                                        <option value="${p.id}" ${record && record.patientId === p.id ? 'selected' : ''}>${p.name}</option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Doctor</label>
+                                <select id="appointmentDoctor">
+                                    <option value="">Select Doctor</option>
+                                    ${doctors.filter(d => d.status === 'Available').map(d => `
+                                        <option value="${d.id}" ${record && record.doctorId === d.id ? 'selected' : ''}>${d.name} - ${d.specialization}</option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Date</label>
+                                <input type="date" id="appointmentDate" value="${record ? record.date : ''}">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Time</label>
+                                <select id="appointmentTime">
+                                    <option value="">Select Time</option>
+                                    <option value="9:00 AM" ${record && record.time === '9:00 AM' ? 'selected' : ''}>9:00 AM</option>
+                                    <option value="10:00 AM" ${record && record.time === '10:00 AM' ? 'selected' : ''}>10:00 AM</option>
+                                    <option value="11:00 AM" ${record && record.time === '11:00 AM' ? 'selected' : ''}>11:00 AM</option>
+                                    <option value="2:00 PM" ${record && record.time === '2:00 PM' ? 'selected' : ''}>2:00 PM</option>
+                                    <option value="3:00 PM" ${record && record.time === '3:00 PM' ? 'selected' : ''}>3:00 PM</option>
+                                    <option value="4:00 PM" ${record && record.time === '4:00 PM' ? 'selected' : ''}>4:00 PM</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Appointment Type</label>
+                                <select id="appointmentType">
+                                    <option value="Consultation" ${record && record.type === 'Consultation' ? 'selected' : ''}>Consultation</option>
+                                    <option value="Follow-up" ${record && record.type === 'Follow-up' ? 'selected' : ''}>Follow-up</option>
+                                    <option value="Emergency" ${record && record.type === 'Emergency' ? 'selected' : ''}>Emergency</option>
+                                    <option value="Surgery" ${record && record.type === 'Surgery' ? 'selected' : ''}>Surgery</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Status</label>
+                                <select id="appointmentStatus">
+                                    <option value="Pending" ${record && record.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="Confirmed" ${record && record.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                                    <option value="Cancelled" ${record && record.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                    <option value="Completed" ${record && record.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Notes</label>
+                                <textarea id="appointmentNotes" placeholder="Enter any notes">${record ? record.notes : ''}</textarea>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 25px;">
+                            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="saveAppointment()">${action === 'add' ? 'Schedule Appointment' : 'Update Appointment'}</button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'drug':
+                    formHTML = `
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="required">Drug Name</label>
+                                <input type="text" id="drugName" value="${record ? record.name : ''}" placeholder="Enter drug name">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Category</label>
+                                <select id="drugCategory">
+                                    <option value="">Select Category</option>
+                                    <option value="Analgesic" ${record && record.category === 'Analgesic' ? 'selected' : ''}>Analgesic</option>
+                                    <option value="Antibiotic" ${record && record.category === 'Antibiotic' ? 'selected' : ''}>Antibiotic</option>
+                                    <option value="Hypertension" ${record && record.category === 'Hypertension' ? 'selected' : ''}>Hypertension</option>
+                                    <option value="Diabetes" ${record && record.category === 'Diabetes' ? 'selected' : ''}>Diabetes</option>
+                                    <option value="Antidepressant" ${record && record.category === 'Antidepressant' ? 'selected' : ''}>Antidepressant</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Stock Quantity</label>
+                                <input type="number" id="drugStock" value="${record ? record.stock : ''}" placeholder="Enter current stock">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Price ($)</label>
+                                <input type="number" step="0.01" id="drugPrice" value="${record ? record.price : ''}" placeholder="Enter price per unit">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Expiry Date</label>
+                                <input type="date" id="drugExpiry" value="${record ? record.expiry : ''}">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Supplier</label>
+                                <input type="text" id="drugSupplier" value="${record ? record.supplier : ''}" placeholder="Enter supplier name">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Reorder Level</label>
+                                <input type="number" id="drugReorderLevel" value="${record ? record.reorderLevel : '50'}" placeholder="Enter reorder level">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 25px;">
+                            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="saveDrug()">${action === 'add' ? 'Add Drug' : 'Update Drug'}</button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'drugPurchase':
+                  
+                    const selectedDrugId = drugId || (record ? record.drugId : null);
+                    const selectedDrug = selectedDrugId ? drugs.find(d => d.id == selectedDrugId) : null;
+                    
+                    formHTML = `
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="required">Drug</label>
+                                <select id="purchaseDrug" onchange="updatePurchasePrice()">
+                                    <option value="">Select Drug</option>
+                                    ${drugs.map(d => `
+                                        <option value="${d.id}" data-price="${d.price}" ${selectedDrugId == d.id ? 'selected' : ''}>${d.name} (Stock: ${d.stock}, Price: $${d.price})</option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Quantity</label>
+                                <input type="number" id="purchaseQuantity" value="${record ? record.quantity : '1'}" oninput="updatePurchaseTotal()" placeholder="Enter quantity">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Unit Price ($)</label>
+                                <input type="number" step="0.01" id="purchaseUnitPrice" value="${record ? record.unitPrice : (selectedDrug ? selectedDrug.price : '')}" oninput="updatePurchaseTotal()" placeholder="Enter unit price">
+                            </div>
+                            <div class="form-group">
+                                <label>Total Amount ($)</label>
+                                <input type="text" id="purchaseTotal" value="${record ? record.total.toFixed(2) : (selectedDrug ? selectedDrug.price : '0.00')}" readonly style="background-color: #f8fafc; font-weight: bold;">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Supplier</label>
+                                <input type="text" id="purchaseSupplier" value="${record ? record.supplier : ''}" placeholder="Enter supplier name">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Purchase Date</label>
+                                <input type="date" id="purchaseDate" value="${record ? record.date : new Date().toISOString().split('T')[0]}">
+                            </div>
+                            <div class="form-group">
+                                <label class="required">Status</label>
+                                <select id="purchaseStatus">
+                                    <option value="Pending" ${record && record.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="Received" ${record && record.status === 'Received' ? 'selected' : ''}>Received</option>
+                                    <option value="Cancelled" ${record && record.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; justify-content: flex-end; margin-top: 25px;">
+                            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="saveDrugPurchase()">${action === 'add' ? 'Record Purchase' : 'Update Purchase'}</button>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            formContent.innerHTML = formHTML;
+            modal.style.display = 'flex';
+            
+           
+            if (type === 'drugPurchase') {
+                updatePurchaseTotal();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('recordModal').style.display = 'none';
+            editingId = null;
+        }
+
+       
+        function savePatient() {
+            const name = document.getElementById('patientName').value;
+            const age = document.getElementById('patientAge').value;
+            const gender = document.getElementById('patientGender').value;
+            const contact = document.getElementById('patientContact').value;
+            const email = document.getElementById('patientEmail').value;
+            const address = document.getElementById('patientAddress').value;
+            const status = document.getElementById('patientStatus').value;
+            
+            if (!name || !age || !gender || !contact || !email || !status) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            if (editingId) {
+               
+                const index = patients.findIndex(p => p.id === editingId);
+                if (index !== -1) {
+                    patients[index] = {
+                        ...patients[index],
+                        name, age: parseInt(age), gender, contact, email, address, status
+                    };
+                }
+            } else {
+                
+                const newPatient = {
+                    id: patients.length > 0 ? Math.max(...patients.map(p => p.id)) + 1 : 1,
+                    name,
+                    age: parseInt(age),
+                    gender,
+                    contact,
+                    email,
+                    address,
+                    status,
+                    registered: new Date().toISOString().split('T')[0]
+                };
+                patients.push(newPatient);
+            }
+            
+            saveDataToStorage();
+            closeModal();
+            loadModule('patients');
+        }
+
+        function saveDoctor() {
+            const name = document.getElementById('doctorName').value;
+            const specialization = document.getElementById('doctorSpecialization').value;
+            const department = document.getElementById('doctorDepartment').value;
+            const contact = document.getElementById('doctorContact').value;
+            const email = document.getElementById('doctorEmail').value;
+            const experience = document.getElementById('doctorExperience').value;
+            const status = document.getElementById('doctorStatus').value;
+            
+            if (!name || !specialization || !department || !contact || !email || !status) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            if (editingId) {
+               
+                const index = doctors.findIndex(d => d.id === editingId);
+                if (index !== -1) {
+                    doctors[index] = {
+                        ...doctors[index],
+                        name, specialization, department, contact, email, experience, status
+                    };
+                }
+            } else {
+               
+                const newDoctor = {
+                    id: doctors.length > 0 ? Math.max(...doctors.map(d => d.id)) + 1 : 1,
+                    name,
+                    specialization,
+                    department,
+                    contact,
+                    email,
+                    experience,
+                    status
+                };
+                doctors.push(newDoctor);
+            }
+            
+            saveDataToStorage();
+            closeModal();
+            loadModule('doctors');
+        }
+
+        function saveAppointment() {
+            const patientId = parseInt(document.getElementById('appointmentPatient').value);
+            const doctorId = parseInt(document.getElementById('appointmentDoctor').value);
+            const date = document.getElementById('appointmentDate').value;
+            const time = document.getElementById('appointmentTime').value;
+            const type = document.getElementById('appointmentType').value;
+            const status = document.getElementById('appointmentStatus').value;
+            const notes = document.getElementById('appointmentNotes').value;
+            
+            if (!patientId || !doctorId || !date || !time || !type || !status) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            const patient = patients.find(p => p.id === patientId);
+            const doctor = doctors.find(d => d.id === doctorId);
+            
+            if (!patient || !doctor) {
+                alert('Invalid patient or doctor selected');
+                return;
+            }
+            
+            if (editingId) {
+                
+                const index = appointments.findIndex(a => a.id === editingId);
+                if (index !== -1) {
+                    appointments[index] = {
+                        ...appointments[index],
+                        patientId,
+                        patient: patient.name,
+                        doctorId,
+                        doctor: doctor.name,
+                        date,
+                        time,
+                        type,
+                        status,
+                        notes
+                    };
+                }
+            } else {
+                
+                const newAppointment = {
+                    id: appointments.length > 0 ? Math.max(...appointments.map(a => a.id)) + 1 : 1,
+                    patientId,
+                    patient: patient.name,
+                    doctorId,
+                    doctor: doctor.name,
+                    date,
+                    time,
+                    type,
+                    status,
+                    notes
+                };
+                appointments.push(newAppointment);
+            }
+            
+            saveDataToStorage();
+            closeModal();
+            loadModule('appointments');
+        }
+
+        function saveDrug() {
+            const name = document.getElementById('drugName').value;
+            const category = document.getElementById('drugCategory').value;
+            const stock = parseInt(document.getElementById('drugStock').value);
+            const price = parseFloat(document.getElementById('drugPrice').value);
+            const expiry = document.getElementById('drugExpiry').value;
+            const supplier = document.getElementById('drugSupplier').value;
+            const reorderLevel = parseInt(document.getElementById('drugReorderLevel').value);
+            
+            if (!name || !category || isNaN(stock) || isNaN(price) || !expiry || !supplier || isNaN(reorderLevel)) {
+                alert('Please fill all required fields with valid values');
+                return;
+            }
+            
+            if (editingId) {
+               
+                const index = drugs.findIndex(d => d.id === editingId);
+                if (index !== -1) {
+                    drugs[index] = {
+                        ...drugs[index],
+                        name, category, stock, price, expiry, supplier, reorderLevel
+                    };
+                }
+            } else {
+               
+                const newDrug = {
+                    id: drugs.length > 0 ? Math.max(...drugs.map(d => d.id)) + 1 : 1,
+                    name,
+                    category,
+                    stock,
+                    price,
+                    expiry,
+                    supplier,
+                    reorderLevel
+                };
+                drugs.push(newDrug);
+            }
+            
+            saveDataToStorage();
+            closeModal();
+            loadModule('pharmacy');
+        }
+
+        function updatePurchasePrice() {
+            const drugSelect = document.getElementById('purchaseDrug');
+            const selectedOption = drugSelect.options[drugSelect.selectedIndex];
+            if (selectedOption && selectedOption.value) {
+                const price = selectedOption.getAttribute('data-price');
+                document.getElementById('purchaseUnitPrice').value = price;
+                updatePurchaseTotal();
+            }
+        }
+
+        function updatePurchaseTotal() {
+            const quantity = document.getElementById('purchaseQuantity').value;
+            const unitPrice = document.getElementById('purchaseUnitPrice').value;
+            
+            if (quantity && unitPrice) {
+                const total = parseFloat(quantity) * parseFloat(unitPrice);
+                document.getElementById('purchaseTotal').value = total.toFixed(2);
+            } else {
+                document.getElementById('purchaseTotal').value = '0.00';
+            }
+        }
+
+        function saveDrugPurchase() {
+            const drugId = parseInt(document.getElementById('purchaseDrug').value);
+            const quantity = parseInt(document.getElementById('purchaseQuantity').value);
+            const unitPrice = parseFloat(document.getElementById('purchaseUnitPrice').value);
+            const supplier = document.getElementById('purchaseSupplier').value;
+            const date = document.getElementById('purchaseDate').value;
+            const status = document.getElementById('purchaseStatus').value;
+            
+            if (!drugId || isNaN(quantity) || isNaN(unitPrice) || !supplier || !date || !status) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            const drug = drugs.find(d => d.id === drugId);
+            if (!drug) {
+                alert('Selected drug not found');
+                return;
+            }
+            
+            const total = quantity * unitPrice;
+            
+            if (editingId) {
+               
+                const index = drugPurchases.findIndex(p => p.id === editingId);
+                if (index !== -1) {
+                    drugPurchases[index] = {
+                        ...drugPurchases[index],
+                        drugId,
+                        drugName: drug.name,
+                        quantity,
+                        unitPrice,
+                        total,
+                        supplier,
+                        date,
+                        status
+                    };
+                    
+                    
+                    if (status === 'Received' && drugPurchases[index].status !== 'Received') {
+                        drug.stock += quantity;
+                    }
+                }
+            } else {
+                
+                const newPurchase = {
+                    id: drugPurchases.length > 0 ? Math.max(...drugPurchases.map(p => p.id)) + 1 : 1,
+                    drugId,
+                    drugName: drug.name,
+                    quantity,
+                    unitPrice,
+                    total,
+                    supplier,
+                    date,
+                    status
+                };
+                drugPurchases.push(newPurchase);
+                
+               
+                if (status === 'Received') {
+                    drug.stock += quantity;
+                }
+            }
+            
+            saveDataToStorage();
+            closeModal();
+            loadModule('drugPurchase');
+        }
+
+        
+        function deleteRecord(type, id) {
+            if (!confirm(`Are you sure you want to delete this ${type}?`)) {
+                return;
+            }
+            
+            let arrayToUpdate;
+            switch(type) {
+                case 'patient':
+                    arrayToUpdate = patients;
+                    break;
+                case 'doctor':
+                    arrayToUpdate = doctors;
+                    break;
+                case 'appointment':
+                    arrayToUpdate = appointments;
+                    break;
+                case 'drug':
+                    arrayToUpdate = drugs;
+                    break;
+                case 'drugPurchase':
+                    arrayToUpdate = drugPurchases;
+                    break;
+            }
+            
+            if (arrayToUpdate) {
+                const index = arrayToUpdate.findIndex(item => item.id === id);
+                if (index !== -1) {
+                    arrayToUpdate.splice(index, 1);
+                    saveDataToStorage();
+                    loadModule(currentModule);
+                }
+            }
+        }
+
+        function deleteUser(id) {
+            if (id === currentUser.id) {
+                alert('You cannot delete your own account');
+                return;
+            }
+            
+            if (!confirm('Are you sure you want to delete this user?')) {
+                return;
+            }
+            
+            const index = users.findIndex(u => u.id === id);
+            if (index !== -1) {
+                users.splice(index, 1);
+                saveDataToStorage();
+                loadModule('admin');
+            }
+        }
+
+        
+        function initializeSearch() {
+            
+        }
+
+        function searchTable(searchInputId, tableId) {
+            const input = document.getElementById(searchInputId);
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById(tableId);
+            const tr = table.getElementsByTagName("tr");
+            
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName("td");
+                let showRow = false;
+                
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        const txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            showRow = true;
+                            break;
+                        }
+                    }
+                }
+                
+                tr[i].style.display = showRow ? "" : "none";
+            }
+        }
+
+        function filterTable(filterId, tableId, columnIndex) {
+            const filter = document.getElementById(filterId).value;
+            const table = document.getElementById(tableId);
+            const tr = table.getElementsByTagName("tr");
+            
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName("td")[columnIndex];
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    if (filter === "" || txtValue === filter) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function updateAppointmentStatus(id, status) {
+            const appointment = appointments.find(a => a.id === id);
+            if (appointment) {
+                appointment.status = status;
+                saveDataToStorage();
+                loadModule('appointments');
+            }
+        }
+
+        function updatePurchaseStatus(id, status) {
+            const purchase = drugPurchases.find(p => p.id === id);
+            if (purchase) {
+                purchase.status = status;
+                
+                
+                if (status === 'Received') {
+                    const drug = drugs.find(d => d.id === purchase.drugId);
+                    if (drug) {
+                        drug.stock += purchase.quantity;
+                    }
+                }
+                
+                saveDataToStorage();
+                loadModule('drugPurchase');
+            }
+        }
+
+        function exportData(type) {
+            let data, filename;
+            
+            switch(type) {
+                case 'patients':
+                    data = patients;
+                    filename = 'patients.csv';
+                    break;
+                case 'doctors':
+                    data = doctors;
+                    filename = 'doctors.csv';
+                    break;
+                case 'appointments':
+                    data = appointments;
+                    filename = 'appointments.csv';
+                    break;
+                case 'drugs':
+                    data = drugs;
+                    filename = 'drugs.csv';
+                    break;
+                case 'drugPurchases':
+                    data = drugPurchases;
+                    filename = 'drug_purchases.csv';
+                    break;
+            }
+            
+            if (data && data.length > 0) {
+               
+                const headers = Object.keys(data[0]);
+                const csvRows = [
+                    headers.join(','),
+                    ...data.map(row => headers.map(header => JSON.stringify(row[header])).join(','))
+                ];
+                const csvString = csvRows.join('\n');
+                
+                
+                const blob = new Blob([csvString], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+        }
+
+        function resetSystem() {
+            if (confirm('This will reset all demo data to default values. Are you sure?')) {
+                localStorage.clear();
+                
+                
+                window.location.reload();
+            }
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        function generateReport() {
+            alert('PDF generation would be implemented in a real application');
+        }
+
+       
+        document.addEventListener('DOMContentLoaded', function() {
+           
+            saveDataToStorage();
+            
+           
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                if (!input.value) {
+                    input.value = today;
+                }
+            });
+            
+           
+            if (typeof Chart !== 'undefined') {
+                const ctx = document.getElementById('appointmentsChart');
+                if (ctx) {
+                    new Chart(ctx.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Appointments',
+                                data: [65, 78, 90, 85, 95, 110],
+                                borderColor: 'rgb(37, 99, 235)',
+                                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Monthly Appointment Trends'
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+       
+        window.onclick = function(event) {
+            const modal = document.getElementById('recordModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
